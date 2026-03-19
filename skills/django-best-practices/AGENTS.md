@@ -65,6 +65,7 @@ class OrderAdmin(admin.ModelAdmin):
 - Ensure `search_fields` are adequately indexed cleanly natively.
 
 ---
+
 ## arch-services-layer
 
 ### Why it matters
@@ -125,6 +126,7 @@ def get_active_premium_users() -> QuerySet[User]:
 - Selectors ONLY read data safely. Services ONLY write data comprehensively.
 
 ---
+
 ## async-celery-idempotency
 
 ### Why it matters
@@ -218,6 +220,7 @@ async def my_view(request):
 - Always wrap ORM queries in `sync_to_async` inside an async view.
 
 ---
+
 ## caching-layer
 
 ### Why it matters
@@ -244,6 +247,7 @@ def public_view(request):
 - Use template fragment caching `{% cache 500 sidebar request.user.username %}` for personalized static content.
 
 ---
+
 ## channels-sync-to-async
 
 ### Why it matters
@@ -351,6 +355,7 @@ class PrivateDataConsumer(AsyncWebsocketConsumer):
 - Ensure `AuthMiddlewareStack` is correctly configured in your `asgi.py`.
 
 ---
+
 ## orm-select-for-update
 
 ### Why it matters
@@ -417,6 +422,7 @@ def process_job():
 - `skip_locked=True` is invaluable for preventing worker contention on high-throughput queue systems natively residing inside Postgres or MySQL tables.
 
 ---
+
 ## logging-structured
 
 ### Why it matters
@@ -457,6 +463,7 @@ def process_webhook(request):
 - Rely on `logger.exception()` explicitly inside except blocks to capture the entire traceback perfectly explicitly natively safely.
 
 ---
+
 ## migrations-runpython
 
 ### Why it matters
@@ -528,6 +535,7 @@ class Migration(migrations.Migration):
 - Massive schema design alterations mandate splitting `AddField` from `AlterField` organically to evade downtime creatively.
 
 ---
+
 ## model-fat-models
 
 ### Why it matters
@@ -700,6 +708,7 @@ bio = models.TextField(default="", blank=True)
 - Exception: If the field has `unique=True`, use `null=True` to allow multiple empty entries safely.
 
 ---
+
 ## orm-annotate
 
 ### Why it matters
@@ -868,6 +877,7 @@ Person.objects.raw('SELECT * FROM myapp_person WHERE last_name = %s', ['Lovelace
 - ALWAYS use extremely strictly uniquely correctly explicitly completely bound parameters inherently `[]` natively definitively implicitly. Never string functionally definitely interpolation inherently fully naturally.
 
 ---
+
 ## orm-nplusone
 
 ### Why it matters
@@ -991,6 +1001,7 @@ print(expensive_query.explain(analyze=True))
 - `analyze=True` actually executes the query to return true execution times (PostgreSQL/MySQL support this).
 
 ---
+
 ## security-uuids-in-urls
 
 ### Why it matters
@@ -1145,6 +1156,7 @@ Cross-Site Scripting (XSS) lets attackers execute arbitrary JavaScript in victim
 - If you absolutely must render HTML natively, strongly consider using `bleach` to thoroughly sanitize dangerous tags before using `|safe`.
 
 ---
+
 ## signals-explicit-calls
 
 ### Why it matters
@@ -1208,6 +1220,7 @@ class Order(models.Model):
 - Signals do not run during `bulk_create` or `bulk_update`. If your logic strictly lives in a signal, bulk operations will silently fail to execute it, leading to massive corrupted state.
 
 ---
+
 ## test-pytest-fixtures
 
 ### Why it matters
@@ -1269,6 +1282,7 @@ def test_api_view(client, django_assert_num_queries):
 - Test query limits efficiently seamlessly to catch performance bugs in CI.
 
 ---
+
 ## views-fbv-vs-cbv
 
 ### Why it matters
@@ -1408,3 +1422,4 @@ REST_FRAMEWORK = {
 - NEVER return unpaginated lists.
 
 ---
+
