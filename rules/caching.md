@@ -8,15 +8,15 @@ Caching the wrong layer causes cache stampedes and stale data bugs. Default to p
 # Caches a view globally that contains a user's private shopping cart
 @cache_page(60 * 15)
 def cart_view(request):
-    return render(request, 'cart.html', {'cart': request.user.cart})
+ return render(request, 'cart.html', {'cart': request.user.cart})
 ```
 
 ### ✅ Right
 ```python
-# Cache explicitly by user or use template fragment caching.
+# Cache directly by user or use template fragment caching.
 @cache_page(60 * 15, key_prefix="public_home")
 def public_view(request):
-    return render(request, 'public.html')
+ return render(request, 'public.html')
 ```
 
 ### Notes

@@ -1,7 +1,7 @@
 ## orm-nplusone
 
 ### Why it matters
-The N+1 query problem occurs when you access a related object in a loop. Django's ORM is lazy, and accessing related data without explicitly fetching it beforehand causes the ORM to execute a separate SQL query for each item in the list, completely destroying performance for large datasets.
+The N+1 query problem occurs when you access a related object in a loop. Django's ORM is lazy, and accessing related data without directly fetching it beforehand causes the ORM to execute a separate SQL query for each item in the list, completely destroying performance for large datasets.
 
 ### ❌ Wrong
 ```python
@@ -9,9 +9,9 @@ The N+1 query problem occurs when you access a related object in a loop. Django'
 books = Book.objects.all()
 
 for book in books:
-    # Triggers a NEW query for each book to get its author
-    # If there are 100 books, this executes 101 queries
-    print(book.author.name)
+ # Triggers a NEW query for each book to get its author
+ # If there are 100 books, this executes 101 queries
+ print(book.author.name)
 ```
 
 ### ✅ Right
@@ -20,8 +20,8 @@ for book in books:
 books = Book.objects.select_related('author').all()
 
 for book in books:
-    # Author data is already in memory, no new queries are triggered
-    print(book.author.name)
+ # Author data is already in memory, no new queries are triggered
+ print(book.author.name)
 ```
 
 ### Notes
@@ -41,8 +41,8 @@ Fetching columns from the database that you don't actually use wastes database m
 users = User.objects.all()
 
 for user in users:
-    # We only care about the username and email, but we fetched the entire profile/bio
-    send_email(user.username, user.email)
+ # We only care about the username and email, but we fetched the entire profile/bio
+ send_email(user.username, user.email)
 ```
 
 ### ✅ Right
@@ -51,7 +51,7 @@ for user in users:
 users = User.objects.only('id', 'username', 'email')
 
 for user in users:
-    send_email(user.username, user.email)
+ send_email(user.username, user.email)
 ```
 
 ### Notes
@@ -72,9 +72,9 @@ users = User.objects.filter(is_active=True)
 
 # Evaluates the queryset and fetches all objects to count them
 if len(users) > 0:
-    # Evaluates the queryset a SECOND time
-    for user in users:
-         print(user.name)
+ # Evaluates the queryset a SECOND time
+ for user in users:
+ print(user.name)
 ```
 
 ### ✅ Right
@@ -83,15 +83,15 @@ users = User.objects.filter(is_active=True)
 
 # Use .exists() if you just need to check if there are any results without loading them
 # OR if you need the data, evaluate it once:
-users_list = list(users)  # Evaluates once
+users_list = list(users) # Evaluates once
 if users_list:
-    for user in users_list:
-        print(user.name)
+ for user in users_list:
+ print(user.name)
 ```
 
 ### Notes
 - Use `.exists()` to check for presence efficiently without retrieving rows.
-- Use `.count()` to reliably get the count natively in SQL instead of fetching objects into memory.
+- Use `.count()` to reliably get the count in SQL instead of fetching objects into memory.
 
 ---
 

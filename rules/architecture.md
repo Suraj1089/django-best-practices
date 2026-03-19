@@ -7,25 +7,25 @@ Putting logic in views or serializers violates DRY. The services layer creates a
 ```python
 # View has massive business logic
 def register_user(request):
-    # check email, hash password, create user, send email, setup stripe
+ # check email, hash password, create user, send email, setup stripe
 ```
 
 ### ✅ Right
 ```python
 # services/user_registration.py
 def register_user(email, password):
-    # Transaction atomic block
-    with transaction.atomic():
-        user = User.objects.create_user(email=email, password=password)
-        UserProfile.objects.create(user=user)
-        stripe_customer = stripe.Customer.create(email=email)
-        user.stripe_id = stripe_customer.id
-        user.save()
-    return user
+ # Transaction atomic block
+ with transaction.atomic():
+ user = User.objects.create_user(email=email, password=password)
+ UserProfile.objects.create(user=user)
+ stripe_customer = stripe.Customer.create(email=email)
+ user.stripe_id = stripe_customer.id
+ user.save()
+ return user
 
 # views.py
 def register_user_view(request):
-    user = register_user(request.POST['email'], request.POST['password'])
+ user = register_user(request.POST['email'], request.POST['password'])
 ```
 
 ### Notes
@@ -48,10 +48,10 @@ active_premium = User.objects.filter(is_active=True, plan='premium').select_rela
 ```python
 # selectors/users.py
 def get_active_premium_users() -> QuerySet[User]:
-    return User.objects.filter(
-        is_active=True, 
-        plan='premium'
-    ).select_related('profile')
+ return User.objects.filter(
+ is_active=True, 
+ plan='premium'
+ ).select_related('profile')
 ```
 
 ### Notes
